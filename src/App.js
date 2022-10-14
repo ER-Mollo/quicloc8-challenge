@@ -1,41 +1,21 @@
 import React,{useEffect,useState} from 'react';
-import './App.css';
+
 import PropagateLoader from "react-spinners/PropagateLoader";
  import logo from './asserts/Quicloc8-logo.png';
 import MyComponent from './component/mapScreen';
-
+import Message from './component/message';
+import {Route, Routes} from 'react-router-dom'
 function App() {
-const [loading,setLoading]=useState(false);
-
-  useEffect(() => {
-setLoading(true)
-    setTimeout(() =>{
-      setLoading(false)
-    },3500)
-  },[])
 
   return (
-    <div className="App">
-      {
-        loading ?(
-        <div className="App-header">
-        <img src={logo} alt="logo" />
-        <PropagateLoader
-        color={'#FF5722'}
-        loading={loading}
-        size={'2vh'}
-        aria-label="Loading Spinner"
-        data-testid="loader"
-      />
-        </div>)
-        :(
+    <Routes>
 
-        <MyComponent/>
-        )
+          <Route path = "/"  index element={<MyComponent/>} />
 
-      }
-      
-    </div>
+          <Route path = "/message" element={<Message/>}/>
+
+          
+        </Routes>
   );
 }
 

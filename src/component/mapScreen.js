@@ -1,6 +1,9 @@
 import React,{useEffect,useRef,useState} from 'react';
 import taxi from '../asserts/Quicloc8-logo.png'
-
+import PropagateLoader from "react-spinners/PropagateLoader";
+import logo from '../asserts/Quicloc8-logo.png'
+import '../css/map.css'
+import { useNavigate } from 'react-router-dom';
 import {
   useJsApiLoader,
   GoogleMap,
@@ -8,13 +11,37 @@ import {
   InfoWindow
  
 } from '@react-google-maps/api';
-const center = { lat: 48.8584, lng: 2.2945 };
-const markers = 
+const center = { lat: -33, lng: 18};
+const markers = [
   {
     id: 1,
-    name: "Chicago, Illinois",
-    position: { lat: 48.8584, lng: 2.2945}
-  };
+    heading: "31",
+    position: { lat: -33.876115, lng: 18.5008116}
+  },
+  {
+    id: 2,
+    heading: "310",
+    position: { lat: -33.9685533, lng: 18.5662383}
+  },
+  {
+    id: 3,
+    heading: "0",
+    position: { lat: -33.0461583, lng: 18.7047383}
+  },
+  {
+    id: 4,
+    heading: "299",
+    position: { lat: -33.8942983, lng: 18.878175}
+  },
+  {
+    id: 4,
+    heading: "43",
+    position: { lat: -33.9998233, lng: 18.5801216}
+  },
+
+
+]
+ 
   
 
 
@@ -31,6 +58,20 @@ function MyComponent() {
       const [duration, setDuration] = useState('');
       const [activeMarker, setActiveMarker] = useState(null);
       const [infoWindowVisible, setInfoWindowVisible] = useState(false);
+      const [loading,setLoading]=useState(false);
+
+      let history = new useNavigate();
+
+      function click(){
+        history('/message')
+      }
+
+      useEffect(() => {
+        setLoading(true)
+            setTimeout(() =>{
+              setLoading(false)
+            },3500)
+          },[])
       
       
       if (!isLoaded) {
@@ -77,43 +118,67 @@ function MyComponent() {
   return (
    
     <div>
-      <GoogleMap
-    center={center}
-    zoom={15}
-    onClick={() => setActiveMarker(null)}
-    mapContainerStyle={{ width: "100vw", height: "80vh" }}
-  >
-    {/* {markers.map(({ id, name, position }) => ( */}
-      <Marker
-        position={center} 
-        style={{backgroundColor:'red'}}
-        icon={{
+      {
+        loading ?(
+        <div className="start">
+        <img src={logo} alt="logo" className='logo'/>
+        <PropagateLoader
+        color={'#FF5722'}
+        loading={loading}
+        size={'2vh'}
+        aria-label="Loading Spinner"
+        data-testid="loader"
+        className='load'
+      />
+        </div>)
+        :(
 
-          url: {taxi},
-          // anchor: new window.google.maps.Point(17, 46),
-          // scaledSize: new window.google.maps.Size(37, 37)
-  
-      }}
-        
+        <div>
+            <GoogleMap
+        center={center}
+        zoom={15}
+        onClick={() => setActiveMarker(null)}
+        mapContainerStyle={{ width: "100vw", height: "80vh" }}
       >
-        <img src={taxi} style={{width:'100px',height:'100px'}}/>
-        {/* {activeMarker === id ? (
-          <InfoWindow onCloseClick={() => setActiveMarker(null)}>
-            <div>{name}</div>
-          </InfoWindow>
-        ) : null} */}
+        {markers.map(({ id, position }) => (
+          <Marker
+            position={position} 
+            id={id}
 
-      {infoWindowVisible && (
-          <InfoWindow position={center}>
-            <div>Hi!!</div>
-          </InfoWindow>
-        )}
+            style={{backgroundColor:'red'}}
+            icon={{
+              url: {taxi},
+          }}
+            
+          >
+            <img src={taxi} style={{width:'100px',height:'100px'}}/>
+            {activeMarker === id ? (
+              <InfoWindow onCloseClick={() => setActiveMarker(null)}>
+                <div>{position}</div>
+              </InfoWindow>
+            ) : null}
+
+          {infoWindowVisible && (
+              <InfoWindow position={center}>
+                <div>Hi!!</div>
+              </InfoWindow>
+            )}
 
 
-      </Marker>
-    {/* ))} */}
-  </GoogleMap>
-  <button>Message</button>
+          </Marker>
+        ))} 
+      </GoogleMap>
+      <div className='bottom'>
+      <button className='button'>Message</button>
+      </div>
+      
+        </div>
+        )
+
+      }
+
+
+        
     </div>
     
   );
