@@ -1,6 +1,7 @@
 import React from "react";
 import '../css/message.css'
 import { messages } from "../asserts/messages";
+import { FaBeer,FaBars,FaStar } from 'react-icons/fa';
 function Message() {
 
     
@@ -8,7 +9,7 @@ function Message() {
   return (
     <div className="main">
         <div className='top'>
-            <p>-</p>
+           <FaBars style={{paddingTop:10,width:20,height:20}}/>
             <h1 className='heading'>Message</h1>
         </div>
         {
@@ -25,7 +26,7 @@ function Message() {
                 
                 <div className="end">
                     <p className='date'>{item.display}</p>
-                    <p>*</p>
+                    <FaStar color="#FFCCBC"/>
                 </div>
             </div>
             <hr className="line"/>

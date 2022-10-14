@@ -3,6 +3,7 @@ import taxi from '../asserts/Quicloc8-logo.png'
 import PropagateLoader from "react-spinners/PropagateLoader";
 import logo from '../asserts/Quicloc8-logo.png'
 import '../css/map.css'
+import { FaBeer } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import {
   useJsApiLoader,
@@ -169,7 +170,7 @@ function MyComponent() {
         ))} 
       </GoogleMap>
       <div className='bottom'>
-      <button className='button'>Message</button>
+      <button className='button' onClick={click}>Message</button>
       </div>
       
         </div>
